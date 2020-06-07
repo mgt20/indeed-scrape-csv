@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 # get soup object
 def get_soup(text):
-	return BeautifulSoup(text, "lxml", from_encoding="utf-8")
+	return BeautifulSoup(text, "lxml") #, from_encoding="utf-8")
 
 
 # extract company
@@ -23,15 +23,23 @@ def extract_company(div):
 # extract job salary
 def extract_salary(div): 
     try:
-        return (div.find('nobr').text)
+        spans = div.findAll('span', attrs={'class': 'salaryText'})
+        for span in spans:
+            return (span.text.strip())
     except:
-        try:
-            div_two = div.find(name='div', attrs={'class':'sjcl'})
-            div_three = div_two.find('div')
-            salaries.append(div_three.text.strip())
-        except:
-            return ('NOT_FOUND')
+        return 'NOT_FOUND'
     return 'NOT_FOUND'
+
+#    try:
+#        return (div.find('nobr').text)
+#    except:
+#        try:
+#            div_two = div.find(name='div', attrs={'class':'salaryText'})
+#            div_three = div_two.find('div')
+#            salaries.append(div_three.text.strip())
+#        except:
+#            return ('NOT_FOUND')
+#    return 'NOT_FOUND'
 
 
 # extract job location
@@ -50,11 +58,24 @@ def extract_job_title(div):
 
 # extract jd summary
 def extract_summary(div): 
-    spans = div.findAll('span', attrs={'class': 'summary'})
-    for span in spans:
-        return (span.text.strip())
+    try:
+        for div in div.find(name='div', attrs={'class':'summary'}):
+            #return (div['summary'])
+            summary.append(div.text.strip())
+        #div_two = div.find(name='div', attrs={'class':'summary'})
+        #div_three = div_two.find('div')
+        #summary.append(div_three.text.strip())
+        #for div in divs:
+        #   return (div.text.strip())
+    except:
+        return ('NOT_FOUND')
     return 'NOT_FOUND'
- 
+
+#    spans = div.findAll('span', attrs={'class': 'summary'})
+#    for span in spans:
+#        return (span.text.strip())
+#    return 'NOT_FOUND'
+
 
 # extract link of job description 
 def extract_link(div): 
@@ -78,7 +99,7 @@ def extract_date(div):
 def extract_fulltext(url):
     try:
         page = requests.get('http://www.indeed.com' + url)
-        soup = BeautifulSoup(page.text, "lxml", from_encoding="utf-8")
+        soup = BeautifulSoup(page.text, "lxml") #, from_encoding="utf-8")
         spans = soup.findAll('span', attrs={'class': 'summary'})
         for span in spans:
             return (span.text.strip())

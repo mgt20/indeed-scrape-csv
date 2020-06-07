@@ -1,7 +1,7 @@
 # import packages
 import requests
 import pandas as pd
-import time 
+import time
 from functions import *
 
 
@@ -9,10 +9,10 @@ from functions import *
 max_results_per_city = 100
 
 # db of city 
-city_set = ['New+York','Toronto','Las+Vegas']
+city_set = ['Sunnyvale']
 
 # job roles
-job_set = ['business+analyst','data+scientist']
+job_set = ['human resources']
 
 
 # file num
@@ -44,7 +44,7 @@ for city in city_set:
                 page = requests.get('http://www.indeed.com/jobs?q=' + job_qry +'&l=' + str(city) + '&start=' + str(start))
 
                 #ensuring at least 1 second between page grabs                    
-                time.sleep(1)  
+                time.sleep(1)
 
                 #fetch data
                 soup = get_soup(page.text)
@@ -90,13 +90,17 @@ for city in city_set:
 
                     #grabbing link
                     link = extract_link(div)
-                    job_post.append(link)
+                    job_post.append('https://indeed.com' + (link))
 
                     #grabbing date
                     job_post.append(extract_date(div))
 
                     #grabbing full_text
                     job_post.append(extract_fulltext(link))
+                    #grabbing twelve
+                    #job_post.append(extract_fulltext(twelve))
+                    #grabbing thirteen
+                    #job_post.append(extract_fulltext(thirteen))
 
                     #appending list of job post info to dataframe at index num
                     df.loc[num] = job_post

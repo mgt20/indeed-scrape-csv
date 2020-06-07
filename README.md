@@ -1,5 +1,13 @@
 # Indeed Job Scraper (Latest)
 
+Forked from: tarunsinghal92/indeedscrapperlatest
+
+Changes include:
+
+-- Updated css selectors to reflect new Indeed website structure, fixed grabbing salary field
+
+## From master fork:
+
 Indeed Job Scraper for multiple cities and job roles. This is an updated version of code presented by Michael Salmon in https://medium.com/@msalmon00/web-scraping-job-postings-from-indeed-96bd588dcb4b with added functionality of fetching full text from job source.
 
 ## How to Run
